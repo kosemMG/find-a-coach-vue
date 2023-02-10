@@ -8,7 +8,7 @@
     </section>
     <section>
       <base-card>
-        <header>
+        <header v-if='showContactLink'>
           <h2>Interested? Reach out now!</h2>
           <base-button link :to='contactLink'>Contact</base-button>
         </header>
@@ -45,8 +45,11 @@ export default {
     rate() {
       return this.selectedCoach.hourlyRate;
     },
+    showContactLink() {
+      return !this.$route.path.includes('contact');
+    },
     contactLink() {
-      return `${this.$route.path}/${this.id}/contact`;
+      return `${this.$route.path}/contact`;
     },
     areas() {
       return this.selectedCoach.areas;

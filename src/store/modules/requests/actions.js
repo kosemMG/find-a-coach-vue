@@ -18,10 +18,9 @@ export default {
     context.commit('addRequest', request);
   },
   async fetchRequests(context) {
-    const coachId = context.rootGetters.userId;
-    const response = await fetch(`https://vue-find-a-coach-d29ea-default-rtdb.europe-west1.firebasedatabase.app/requests/${coachId}.json`);
+    const { userId, token } = context.rootGetters;
+    const response = await fetch(`https://vue-find-a-coach-d29ea-default-rtdb.europe-west1.firebasedatabase.app/requests/${userId}.json?auth=${token}`);
     const responseData = await response.json();
-    console.log(responseData);
 
     if (!response.ok) {
       throw new Error(responseData.message || 'Failed to fetch requests');
@@ -32,13 +31,12 @@ export default {
     for (const key in responseData) {
       const request = {
         id: key,
-        coachId,
+        coachId: userId,
         email: responseData[key].email,
         message: responseData[key].message
       };
       requests.push(request);
     }
-    console.log(requests);
     context.commit('setRequests', requests);
   }
 };

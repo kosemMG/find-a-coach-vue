@@ -3,10 +3,11 @@ import actions from './actions';
 import getters from './getters';
 
 export default {
-  namespaced: true,
   state() {
     return {
-      requests: []
+      token: null,
+      userId: null,
+      didAutoLogout: false
     };
   },
   mutations,

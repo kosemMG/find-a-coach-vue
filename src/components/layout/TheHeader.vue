@@ -6,8 +6,14 @@
         <li>
           <router-link to="/coaches">All Coaches</router-link>
         </li>
-        <li>
+        <li v-if='isAuthenticated'>
           <router-link to="/requests">Requests</router-link>
+        </li>
+        <li v-else>
+          <router-link to="/auth">Login</router-link>
+        </li>
+        <li v-if='isAuthenticated'>
+          <base-button @click='logout'>Logout</base-button>
         </li>
       </ul>
     </nav>
@@ -16,7 +22,18 @@
 
 <script>
 export default {
-  name: 'TheHeader'
+  name: 'TheHeader',
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    }
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('logout');
+      this.$router.replace('/coaches');
+    }
+  }
 };
 </script>
 
